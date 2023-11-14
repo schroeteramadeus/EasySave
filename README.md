@@ -5,7 +5,7 @@ The code in this repository is currently NOT finished and could contain bugs, un
 
 ## Overview
 
-C# .Net class library for saving data easily and securely.
+C# .Net core class library for saving data easily and securely.
 
 Currently supports encrypted and compressed JSON-Files.
 
