@@ -14,16 +14,40 @@
     {
         private Compression _compression = new Compression();
 
+        /// <summary>
+        /// Type of the underlying data
+        /// </summary>
         public Type Type { get; private set; }
 
         //[JsonConverter(typeof(EncodingSerializer))]
+        /// <summary>
+        /// Encoding of the original data
+        /// </summary>
         public Encoding OriginalEncoding { get; private set; }
 
+        /// <summary>
+        /// Determines wether the current data is compressed
+        /// </summary>
         public bool Compressed { get; private set; }
+        /// <summary>
+        /// Determines wether the current data is encrypted
+        /// </summary>
         public bool Encrypted { get; private set; }
+        /// <summary>
+        /// The password related meta data
+        /// </summary>
         public PasswordData PasswordData { get; private set; }
+        /// <summary>
+        /// The encryption related meta data
+        /// </summary>
         public EncryptionData EncryptionData { get; private set; }
+        /// <summary>
+        /// The compression related meta data
+        /// </summary>
         public CompressionData CompressionData { get; private set; }
+        /// <summary>
+        /// The underlying data
+        /// </summary>
         public byte[] Data { get; private set; }
 
         public JSONDataObject(Type type, Encoding originalEncoding, byte[] data)
@@ -42,10 +66,19 @@
             this.EncryptionData.Algorithm.Padding = this.EncryptionData.PaddingMode;
             this.PasswordData = passwordData;
         }
+        /// <summary>
+        /// Compresses the data via gzip (optimal)
+        /// </summary>
         public void Compress()
         {
             this.Compress(CompressionAlgorithm.GZIP, CompressionLevel.Optimal);
         }
+        /// <summary>
+        /// Compresses the data
+        /// </summary>
+        /// <param name="compressionAlgorithm">The compression algorithm to use</param>
+        /// <param name="compressionLevel">The compression level to use</param>
+        /// <exception cref="ArgumentException">If data is already compressed or encrypted</exception>
         public void Compress(CompressionAlgorithm compressionAlgorithm, CompressionLevel compressionLevel)
         {
             if (!this.Compressed && !this.Encrypted)
@@ -57,7 +90,10 @@
             else
                 throw new ArgumentException("Data already compressed and/or encrypted");
         }
-
+        /// <summary>
+        /// Decompresses the data
+        /// </summary>
+        /// <exception cref="ArgumentException">If data is encrypted or not compressed</exception>
         public void Decompress()
         {
             if (this.Compressed && !this.Encrypted)
@@ -71,7 +107,13 @@
                 throw new ArgumentException("Data already decompressed or encrypted");
         }
 
-
+        /// <summary>
+        /// Encrypts the data
+        /// </summary>
+        /// <param name="password">Password to use</param>
+        /// <param name="algorithm">Encryption algorithm to use</param>
+        /// <param name="hmacAlgorithm">Algorithm to use for HMAC, note that this will also determine the security of the encryption as it can be used to check for password validity</param>
+        /// <exception cref="ArgumentException">If data is already encrypted</exception>
         public void Encrypt(Password password, SymmetricAlgorithm algorithm, HMAC hmacAlgorithm)
         {
             if (!this.Encrypted)
@@ -93,6 +135,10 @@
             else
                 throw new ArgumentException("Data already encrypted");
         }
+        /// <summary>
+        /// Encrypts the data via AES (CBC, PKCS7, blocksize = 128), uses SHA256 for hmac
+        /// </summary>
+        /// <param name="password">The password to use</param>
         public void Encrypt(Password password)
         {
             SymmetricAlgorithm algorithm = Rijndael.Create();
@@ -101,6 +147,11 @@
             algorithm.BlockSize = 128;
             this.Encrypt(password, algorithm, new HMACSHA256(password.PasswordHash));
         }
+        /// <summary>
+        /// Decrypts the data
+        /// </summary>
+        /// <param name="password">Password to use</param>
+        /// <exception cref="ArgumentException">If the password is invalid</exception>
         public void Decrypt(string password)
         {
             if (CheckPassword(password))
@@ -131,6 +182,12 @@
             else
                 throw new InvalidOperationException("Can't check hash of encrypted or compressed data");
         }*/
+        /// <summary>
+        /// Checks if the password is valid
+        /// </summary>
+        /// <param name="password">The password to use</param>
+        /// <returns>True if the password is valid, false if not</returns>
+        /// <exception cref="InvalidOperationException">If the data was not encrypted</exception>
         public bool CheckPassword(string password)
         {
             if (this.Encrypted)

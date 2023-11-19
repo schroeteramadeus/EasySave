@@ -4,6 +4,9 @@
     using System.Text;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// JSON Serializer for saving <see cref="Encoding"/> correctly
+    /// </summary>
     public class EncodingSerializer : JsonConverter<Encoding>
     {
         public override void WriteJson(JsonWriter writer, Encoding value, JsonSerializer serializer)

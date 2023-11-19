@@ -5,9 +5,10 @@ using EasySave.Online.SQL.DataManagement;
 
 namespace EasySave.Online.SQL
 {
+    //TODO
+
     public interface ISQLTypeConverter
     {
-        //TODO
         public SQLTable ConvertToSQL(object obj);
         public object ConvertFromSQL(SQLTable data);
     }

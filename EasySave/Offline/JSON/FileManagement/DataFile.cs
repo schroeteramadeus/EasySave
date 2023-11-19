@@ -6,20 +6,29 @@
     using System.Text.Json.Serialization;
     using System.Text;
 
+    //TODO
+
+    //TODO use generic interface for T
     public class DataFile<T> where T : JSONSerializable
     {
+        /// <summary>
+        /// Path to the file
+        /// </summary>
         public string Path { get; private set; }
+        /// <summary>
+        /// Data to save / load
+        /// </summary>
         public T Data { get; private set; }
 
         private Password _password;
-
         private bool _deleted = false;
+
         public DataFile(string path, T initialData)
         {
             this.Path = path;
 
             //TODO if logfile has entry load from there with password
-            if (!this.TryCreateNew(this.Path, initialData))
+            if (this.TryCreateNew(this.Path, initialData))
             {
                 using (Stream conFile = File.OpenRead(this.Path))
                 {
@@ -39,7 +48,7 @@
             this._password = password;
 
             //TODO if logfile has entry load from there with password
-            if (!this.TryCreateNew(this.Path, initialData))
+            if (this.TryCreateNew(this.Path, initialData))
             {
                 using (Stream conFile = File.OpenRead(this.Path))
                 {
@@ -63,11 +72,17 @@
             if(!this._deleted)
                 Save();
         }
+        /// <summary>
+        /// Deletes the file
+        /// </summary>
         public void Delete()
         {
             this._deleted = true;
             File.Delete(this.Path);
         }
+        /// <summary>
+        /// Saves the file
+        /// </summary>
         public void Save()
         {
             //create failsafe
@@ -101,16 +116,21 @@
 
             this._deleted = false;
         }
-
+        /// <summary>
+        /// Creates a new save file if it does not exist
+        /// </summary>
+        /// <param name="path">Path to the file</param>
+        /// <param name="data">Data to save</param>
+        /// <returns>True, if new file was created, false if not</returns>
         private bool TryCreateNew(string path, T data)
         {
             if (!File.Exists(this.Path))
             {
                 Stream conFile = File.Create(this.Path);
                 this.Data = data;
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

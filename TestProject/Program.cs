@@ -85,7 +85,6 @@ namespace TestProject
 
             JSONSerializationTest t = new JSONSerializationTest();
             JSONDataObject data = t.CreateDataObject();
-
             Console.WriteLine(JSONSerializable.Serialize(data));
             string password = "hello";
             Password p = Password.Create(password, 50000, 32, SHA256.Create());
@@ -109,7 +108,10 @@ namespace TestProject
             
             Console.ReadKey();
         }
-
+        /// <summary>
+        /// Reads a password securely from the console
+        /// </summary>
+        /// <returns>The password</returns>
         public static string ReadPassword()
         {
             //from https://stackoverflow.com/questions/3404421/password-masking-console-application

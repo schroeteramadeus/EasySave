@@ -6,6 +6,8 @@ using System.Reflection;
 
 namespace EasySave.Online.SQL
 {
+    //TODO
+
     public class SQLSerializable
     {
         private static Dictionary<Type, SQLDataStructure> _cache = new Dictionary<Type, SQLDataStructure>();

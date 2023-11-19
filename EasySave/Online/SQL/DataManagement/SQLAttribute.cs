@@ -4,6 +4,8 @@ using System.Text;
 
 namespace EasySave.Online.SQL.DataManagement
 {
+    //TODO
+
     public class SQLAttribute
     {
         public string Name { get; private set; }

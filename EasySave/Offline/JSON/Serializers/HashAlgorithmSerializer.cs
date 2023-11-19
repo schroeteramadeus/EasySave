@@ -4,6 +4,9 @@
     using System.Security.Cryptography;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// JSON Serializer for saving <see cref="HashAlgorithm"/> correctly
+    /// </summary>
     public class HashAlgorithmSerializer : JsonConverter<HashAlgorithm>
     {
         public override void WriteJson(JsonWriter writer, HashAlgorithm value, JsonSerializer serializer)

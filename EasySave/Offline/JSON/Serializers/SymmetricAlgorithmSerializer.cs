@@ -5,6 +5,9 @@
     using System.Text;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// JSON Serializer for saving <see cref="SymmetricAlgorithm"/> correctly
+    /// </summary>
     public class SymmetricAlgorithmSerializer : JsonConverter<SymmetricAlgorithm>
     {
         public override void WriteJson(JsonWriter writer, SymmetricAlgorithm value, JsonSerializer serializer)

@@ -9,6 +9,9 @@ namespace EasySave.Offline.JSON.Serializers
     using System.Text;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// JSON Serializer for saving <see cref="HMAC"/> correctly
+    /// </summary>
     public class HMACSerializer : JsonConverter<HMAC>
     {
         public override void WriteJson(JsonWriter writer, HMAC value, JsonSerializer serializer)

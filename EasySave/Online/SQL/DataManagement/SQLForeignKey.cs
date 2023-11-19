@@ -4,6 +4,8 @@ using System.Text;
 
 namespace EasySave.Online.SQL.DataManagement
 {
+    //TODO
+
     public class SQLForeignKey
     {
         public SQLTable Table1 { get; private set; }

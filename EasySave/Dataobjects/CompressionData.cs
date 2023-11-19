@@ -3,11 +3,18 @@
     using EasySave.Crypto;
     using System.IO.Compression;
 
+    /// <summary>
+    /// Data class for compression related meta data
+    /// </summary>
     public class CompressionData
     {
-        //TODO
-        //implement for jsonDataobject
+        /// <summary>
+        /// The compression algorithm used
+        /// </summary>
         public CompressionAlgorithm CompressionAlgorithm { get; private set; }
+        /// <summary>
+        /// The compression level used
+        /// </summary>
         public CompressionLevel CompressionLevel { get; private set; }
 
         public CompressionData(CompressionAlgorithm compressionAlgorithm, CompressionLevel compressionLevel)

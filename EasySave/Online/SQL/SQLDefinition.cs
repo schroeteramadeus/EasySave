@@ -4,6 +4,8 @@ using System.Text;
 
 namespace EasySave.Online.SQL
 {
+    //TODO
+
     /*[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]*/
     [AttributeUsage(AttributeTargets.Field)]
     public class SQLDefinition : Attribute
